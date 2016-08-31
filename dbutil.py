@@ -39,15 +39,5 @@ class DBUtil():
 
 
 db = DBUtil()
-print(db.jason())
 db.close()
-
-
-
-
-
-
-
-
-
 
