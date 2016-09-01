@@ -3,47 +3,99 @@
 <html>
 
     <head>
+    
+        <style>
+        
+			ul {
+    			list-style-type: none;
+    			margin: 0;
+    			padding: 0;
+    			overflow: hidden;
+    			background-color: #333;
+			}
 
+			li{
+				float: left;
+			}
+
+			li a {
+				display: block;
+				color: white;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+			}
+
+			li a:hover {
+				background-color: #111;
+			}
+		
+    		table {
+    			border-collapse: collapse;
+    			width: 100%;
+    		}
+    		
+    		th, tr, td {
+    			text-align: left;
+    			padding: 8px;
+    		}
+    		
+    		tr:nth-child(even) { 
+    			background-color: #f2f2f2
+    		}
+    		
+    		th {
+    			background-color: #333;
+    			color: white;
+    		}
+
+    
+    	</style>
+    
     </head>
 
     <body>
+    
+        <ul>
+
+			<li><a href="/">Home</a></li>
+			<li><a href="insert">Insert</a></li>
+			<li><a href="show">Show</a></li>
+
+		</ul>
 
     	<h1>Users</h1>
+    	
     	<div id="id01"></div>
+    	
     	<script>
 
-    		function loadJSON(callback) {
-
-    			var xobj = new XMLHttpRequest();
-        
-    			xobj.overrideMimeType("application/json");
-    			xobj.open('GET', 'jason', true);
-    			xobj.onreadystatechange = function () {
-    				if (xobj.readyState == 4 && xobj.status == "200") {
-    					callback(xobj.responseText);
-    				}
-    			};
-    			xobj.send(null);
+    		var xmlhttp = new XMLHttpRequest();
+    		xmlhttp.onreadystatechange=function(){
+    			if(this.readyState == 4 && this.status == 200){
+    				myFunction(this.responseText);
+    			}
     		}
+    		xmlhttp.open("GET", "jason", true)
+    		xmlhttp.send();
 
-    		function init() {
-    			var out = "<table>";
-    			var i;
-    			loadJSON(function(response) {
-    					var arr = JSON.parse(response);
-    					console.log(arr);
-    					for(i = 0; i < arr.length; i++){
-    						out += "<tr><td>" + arr[i].name + "</td></tr>"
-    					}
-    					out += "</table>";
-    					document.getElementById("id01").innerHTML = out;
-    			});
-    		}
     		
-    init();
+    		function myFunction(response){
+    			var arr = JSON.parse(response);
+    			var i;
+    			var out = "<table><tr><th>ID</th><th>Name</th><th>Age</th><th>City</th></th>";
+    			
+    			for(i = 0; i < arr.length; i++){
+    				out += "<tr><td>" + arr[i].ID + "</td><td>" + 
+    				arr[i].name + "</td><td>" + arr[i].age + "</td><td>"
+    				+ arr[i].city + "</td></tr>";
+    			}
+    			
+    			out += "</table>";
+    			document.getElementById("id01").innerHTML = out;
+    		}
+    	
     </script>
-
-
 
     </body>
 
