@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+    </head>
+
+    <body>
+
+    	<h1>Users</h1>
+    	<div id="id01"></div>
+    	<script>
+
+    		function loadJSON(callback) {
+
+    			var xobj = new XMLHttpRequest();
+        
+    			xobj.overrideMimeType("application/json");
+    			xobj.open('GET', 'jason', true);
+    			xobj.onreadystatechange = function () {
+    				if (xobj.readyState == 4 && xobj.status == "200") {
+    					callback(xobj.responseText);
+    				}
+    			};
+    			xobj.send(null);
+    		}
+
+    		function init() {
+    			var out = "<table>";
+    			var i;
+    			loadJSON(function(response) {
+    					var arr = JSON.parse(response);
+    					console.log(arr);
+    					for(i = 0; i < arr.length; i++){
+    						out += "<tr><td>" + arr[i].name + "</td></tr>"
+    					}
+    					out += "</table>";
+    					document.getElementById("id01").innerHTML = out;
+    			});
+    		}
+    		
+    init();
+    </script>
+
+
+
+    </body>
+
+</html>
