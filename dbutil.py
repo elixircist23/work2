@@ -1,11 +1,11 @@
 import sqlite3
 import json
 
-
 class DBUtil():
 
 	#constructor initializes the database to the given path
 	def __init__(self, path, table):
+		self.path = path
 		self.table = table
 		self.conn = sqlite3.connect(path)
 		self.c = self.conn.cursor()		
@@ -35,38 +35,15 @@ class DBUtil():
 	def delete(self, column, condition):
 		self.c.execute('DELETE FROM %s WHERE %s = %s' %s (self.table, column, condition))
 	
+	#return a list of all data from the table
 	def getUsers(self):
-		return self.query(['*'])
-	
-	'''def jason(self):
 		self.close()
 
-		conn = sqlite3.connect('example.db')
+		conn = sqlite3.connect(self.path)
 		conn.row_factory = sqlite3.Row
 		c = conn.cursor()
 
-		c.execute('select * from book')
+		c.execute('select * from %s' % self.table)
 		recs = c.fetchall()
-		rows = [ dict(rec) for rec in recs ]
-		rows_json = json.dumps(rows)
-
-		return rows_json
-'''
-
-
-db = DBUtil('Info.db', 'information')
-
-
-users = db.getUsers()
-d = {}
-for i in users:
-	d
-
-
-db.close()
-
-
-
-
-
-
+		rows = [dict(rec) for rec in recs]
+		return rows
