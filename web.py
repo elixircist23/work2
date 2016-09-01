@@ -3,6 +3,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 import json
+import os
 from dbutil import DBUtil
 
 
@@ -23,6 +24,8 @@ class InsertHandler(tornado.web.RequestHandler):
         db = DBUtil('Info.db', 'information')
         db.insert(name, age, city)
         db.close()
+        
+        self.redirect('/insert')
 
 
 class GetHandler(tornado.web.RequestHandler):
@@ -44,7 +47,7 @@ class Jason(tornado.web.RequestHandler):
 
 
 if __name__ == '__main__':
-    app = tornado.web.Application(handlers=[(r'/', Application), (r'/insert', InsertHandler), (r'/show', GetHandler), (r'/jason', Jason)])
-    http_server = tornado.httpserver.HTTPServer(app)
-    http_server.listen(8888)
-    tornado.ioloop.IOLoop.instance().start()
+	app = tornado.web.Application(handlers=[(r'/', Application), (r'/insert', InsertHandler), (r'/show', GetHandler), (r'/jason', Jason)])
+	http_server = tornado.httpserver.HTTPServer(app)
+	http_server.listen(8888)
+	tornado.ioloop.IOLoop.instance().start()
