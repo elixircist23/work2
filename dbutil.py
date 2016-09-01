@@ -3,27 +3,42 @@ import json
 
 
 class DBUtil():
-	def __init__(self):
-		self.conn = sqlite3.connect('example.db')
-		self.c = self.conn.cursor()		
 
-	def insert(self, name, age):
-		self.c.execute('INSERT INTO book (name, age) VALUES (\'%s\', %s);' % (name, age))
+	#constructor initializes the database to the given path
+	def __init__(self, path, table):
+		self.table = table
+		self.conn = sqlite3.connect(path)
+		self.c = self.conn.cursor()		
 	
+	def insert(self, name, age, city):
+		self.c.execute('INSERT INTO %s (name, age, city) VALUES (\'%s\', %s, \'%s\');' % (self.table, name, age, city))
+	
+	#query method takes in a list, parses it into a valid sql string, then executes
 	def query(self, columnList):
+
 		finalString = ''
 		for i in columnList:
 			finalString += i + ','
 		finalString = finalString[:len(finalString) - 1]
 		
-		for i in self.c.execute('select %s from book' % finalString):
-			print(i)			
+		returnList = []
+		for i in self.c.execute('select %s from %s' % (finalString, self.table)):
+			returnList.append(i)
+		
+		return returnList
 
+	#safely close all database connections
 	def close(self):
 		self.conn.commit()
 		self.c.close()
-
-	def jason(self):
+	
+	def delete(self, column, condition):
+		self.c.execute('DELETE FROM %s WHERE %s = %s' %s (self.table, column, condition))
+	
+	def getUsers(self):
+		return self.query(['*'])
+	
+	'''def jason(self):
 		self.close()
 
 		conn = sqlite3.connect('example.db')
@@ -36,8 +51,22 @@ class DBUtil():
 		rows_json = json.dumps(rows)
 
 		return rows_json
+'''
 
 
-db = DBUtil()
+db = DBUtil('Info.db', 'information')
+
+
+users = db.getUsers()
+d = {}
+for i in users:
+	d
+
+
 db.close()
+
+
+
+
+
 
